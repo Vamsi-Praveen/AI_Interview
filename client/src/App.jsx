@@ -1,33 +1,32 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { Suspense, lazy } from 'react'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+const Dashboard = lazy(() => import('./pages/Dashboard'))
+const Login = lazy(() => import('./pages/Login'))
+const Register = lazy(() => import('./pages/Register'))
+const Error404 = lazy(() => import('./pages/404'))
+const Home = lazy(() => import('./pages/Home'))
+const PrivateRoute = lazy(() => import('./components/ui/Auth/PrivateRoute'))
+import { Toaster } from './components/ui/toaster'
+import Loading from './components/Loader'
 
-function App() {
-  const [count, setCount] = useState(0)
-
+const App = () => {
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Suspense fallback={<Loading />}>
+        <BrowserRouter>
+          <Routes>
+            {/* <Route path="/dashboard" element={<PrivateRoute />}>
+              <Route index element={<Dashboard />} />
+            </Route> */}
+            <Route path='/dashboard' element={<Dashboard />} />
+            <Route path='/' element={<Home />} />
+            <Route path='/auth/login' element={<Login />} />
+            <Route path='/auth/register' element={<Register />} />
+            <Route path='*' element={<Error404 />} />
+          </Routes>
+        </BrowserRouter>
+        <Toaster />
+      </Suspense>
     </>
   )
 }
