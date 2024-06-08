@@ -14,7 +14,7 @@ const Login = () => {
     const navigation = useNavigate()
     useEffect(() => {
         if (user) {
-            navigation('/')
+            navigation('/dashboard')
         }
     }, [])
     const [loginDetails, setLoginDetails] = useState({
@@ -37,6 +37,12 @@ const Login = () => {
                     description: 'Please enter all feilds'
                 });
             }
+            let emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/; // regex for email
+            if (!emailRegex.test(loginDetails.email)) {
+                return toast({
+                    description: 'Please enter valid email'
+                });
+            }
             await axios.post(`${baseUrl}auth/login`, loginDetails)
                 .then((data) => {
                     setToken(data?.headers?.authorization);
@@ -44,9 +50,9 @@ const Login = () => {
                     navigation('/dashboard')
                 })
                 .catch((err) => {
-                    if (err?.response?.data?.error == 'Invalid credentials') {
-                        toast({
-                            description: 'Invalid credentials'
+                    if (err?.response?.data?.error) {
+                        return toast({
+                            description: err?.response?.data?.error
                         })
                     }
                 })

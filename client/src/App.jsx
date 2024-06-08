@@ -15,10 +15,9 @@ const App = () => {
       <Suspense fallback={<Loading />}>
         <BrowserRouter>
           <Routes>
-            {/* <Route path="/dashboard" element={<PrivateRoute />}>
+            <Route path="/dashboard" element={<PrivateRoute />}>
               <Route index element={<Dashboard />} />
-            </Route> */}
-            <Route path='/dashboard' element={<Dashboard />} />
+            </Route>
             <Route path='/' element={<Home />} />
             <Route path='/auth/login' element={<Login />} />
             <Route path='/auth/register' element={<Register />} />

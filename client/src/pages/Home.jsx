@@ -1,10 +1,17 @@
-import React from 'react'
-import { Lightbulb } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Link, useNavigate, useNavigation } from 'react-router-dom'
+import { useAuth } from '@/context/AuthContext'
+import { Lightbulb } from 'lucide-react'
+import { useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 
 const Home = () => {
     const navigation = useNavigate();
+    const { user } = useAuth();
+    useEffect(() => {
+        if (user) {
+            navigation('/dashboard');
+        }
+    }, [])
     return (
         <div className='h-screen w-full flex items-center justify-center flex-col gap-4'>
             <Button className="tracking-wider" asChild>

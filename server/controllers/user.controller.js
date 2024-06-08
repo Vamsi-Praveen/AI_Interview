@@ -29,12 +29,12 @@ const loginUser = async (req, res) => {
 
         const user = await User.findOne({ email });
         if (!user) {
-            return res.status(401).json({ error: 'No User Found' });
+            return res.status(400).json({ error: 'No User Found' });
         }
 
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if (!isPasswordValid) {
-            return res.status(401).json({ error: 'Invalid credentials' });
+            return res.status(400).json({ error: 'Invalid credentials' });
         }
         const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
         return res.header('Authorization', `Bearer ${token}`).json({ message: 'Login successful', userId: user._id, userName: user?.username });

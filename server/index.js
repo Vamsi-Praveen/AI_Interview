@@ -17,6 +17,13 @@ app.get('/api', (req, res) => {
     return res.status(200).send({ message: 'API is working' });
 });
 
+//test authorization request
+app.get('/api/test-auth', async (req, res) => {
+    const token = req.headers.authorization;
+    console.log(token);
+    res.status(200).json("OK");
+})
+
 // Routes
 
 app.use('/api/auth', userRouter);
