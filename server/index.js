@@ -4,6 +4,7 @@ import 'dotenv/config';
 import express from "express";
 import connectToDB from "./config/dbConfig.js";
 import userRouter from "./routes/user.route.js";
+import questionRouter from "./routes/questions.route.js";
 
 const app = express();
 
@@ -27,6 +28,8 @@ app.get('/api/test-auth', async (req, res) => {
 // Routes
 
 app.use('/api/auth', userRouter);
+
+app.use('/api', questionRouter)
 
 
 // Connect to the database
