@@ -6,6 +6,7 @@ const Register = lazy(() => import('./pages/Register'))
 const Error404 = lazy(() => import('./pages/404'))
 const Home = lazy(() => import('./pages/Home'))
 const PrivateRoute = lazy(() => import('./components/ui/Auth/PrivateRoute'))
+const ForgotPassword = lazy(() => import('./pages/ForgotPassword'))
 import { Toaster } from './components/ui/toaster'
 import Loading from './components/Loader'
 
@@ -21,6 +22,7 @@ const App = () => {
             <Route path='/' element={<Home />} />
             <Route path='/auth/login' element={<Login />} />
             <Route path='/auth/register' element={<Register />} />
+            <Route path='/auth/forgot-password' element={<ForgotPassword />} />
             <Route path='*' element={<Error404 />} />
           </Routes>
         </BrowserRouter>
