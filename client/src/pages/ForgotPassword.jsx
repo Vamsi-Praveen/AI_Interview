@@ -3,7 +3,8 @@ import { Input } from '@/components/ui/input'
 import { useToast } from '@/components/ui/use-toast'
 import axios from 'axios'
 import { Loader } from 'lucide-react'
-import React, { useState } from 'react'
+import { useState } from 'react'
+import { Link } from 'react-router-dom'
 
 const ForgotPassword = () => {
     const [loading, setLoading] = useState(false);
@@ -70,6 +71,7 @@ const ForgotPassword = () => {
                         loading ? <Loader className='animate-spin h-4 w-4' /> : "Send Email"
                     }
                 </Button>
+                <p className='text-sm my-2'>Back to <Link to="/auth/login"><span className='font-medium underline'>Login</span></Link></p>
             </div>
         </div >
     )
