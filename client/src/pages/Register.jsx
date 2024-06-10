@@ -46,12 +46,12 @@ const Register = () => {
                 })
                 .catch((err) => {
                     console.log(err)
-                    if(err?.response?.data?.error){
+                    if (err?.response?.data?.error) {
                         return toast({
                             description: err?.response?.data?.error
                         })
                     }
-                   
+
                 })
         } catch (error) {
             console.log(error)
@@ -61,6 +61,11 @@ const Register = () => {
         }
         finally {
             setLoading(false)
+            setUserDetails({
+                fullName: '',
+                email: '',
+                password: ''
+            })
         }
     }
     return (

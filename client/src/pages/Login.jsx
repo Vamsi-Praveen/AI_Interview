@@ -64,6 +64,10 @@ const Login = () => {
         }
         finally {
             setLoading(false)
+            setLoginDetails({
+                email: '',
+                password: ''
+            })
         }
     }
     return (

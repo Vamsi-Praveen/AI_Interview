@@ -1,25 +1,57 @@
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useToast } from '@/components/ui/use-toast'
+import axios from 'axios'
+import { Loader } from 'lucide-react'
 import React, { useState } from 'react'
 
 const ForgotPassword = () => {
+    const [loading, setLoading] = useState(false);
     const { toast } = useToast();
     const [email, setEmail] = useState('');
     const handleChange = (e) => {
         setEmail(e.target.value);
     }
+    const baseUrl = import.meta.env.VITE_API_BASE_URL;
     const handleForgotPassword = async () => {
-        if (email == '') {
+        try {
+            setLoading(true)
+            if (email == '') {
+                return toast({
+                    description: 'Email Required'
+                });
+            }
+            let emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/; // regex for email
+            if (!emailRegex.test(email)) {
+                return toast({
+                    description: 'Please enter valid email'
+                });
+            }
+            await axios.post(`${baseUrl}auth/forgot-password`, { email })
+                .then((data) => {
+                    if (data?.data) {
+                        return toast({
+                            description: data?.data
+                        })
+                    }
+                })
+                .catch((err) => {
+                    if (err?.response?.data?.error) {
+                        return toast({
+                            description: err?.response?.data?.error
+                        })
+                    }
+                })
+
+        } catch (error) {
+            console.log(error)
             return toast({
-                description: 'Email Required'
+                description: error
             });
         }
-        let emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/; // regex for email
-        if (!emailRegex.test(email)) {
-            return toast({
-                description: 'Please enter valid email'
-            });
+        finally {
+            setLoading(false)
+            setEmail('')
         }
     }
 
@@ -33,7 +65,11 @@ const ForgotPassword = () => {
                 <div className='mb-3'>
                     <Input placeholder="Email Addresss" type="email" className="focus-visible:ring-0" name="email" onChange={handleChange} autoComplete={'off'} />
                 </div>
-                <Button onClick={handleForgotPassword}>Send Email</Button>
+                <Button onClick={handleForgotPassword} disabled={loading}>
+                    {
+                        loading ? <Loader className='animate-spin h-4 w-4' /> : "Send Email"
+                    }
+                </Button>
             </div>
         </div >
     )
