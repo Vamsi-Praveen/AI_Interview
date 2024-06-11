@@ -73,9 +73,9 @@ const Register = () => {
             <h1 className='text-2xl font-semibold tracking-wide'>Join with us now 😎</h1>
             <div className='my-2 w-[300px] space-y-5'>
                 <div className='space-y-3'>
-                    <Input placeholder="Full Name" type="text" className="focus-visible:ring-0" name="fullName" onChange={handleChange} />
-                    <Input placeholder="Email Addresss" type="email" className="focus-visible:ring-0" name="email" onChange={handleChange} />
-                    <Input placeholder="Password" type="password" className="focus-visible:ring-0" name="password" onChange={handleChange} />
+                    <Input placeholder="Full Name" type="text" className="focus-visible:ring-0" name="fullName" onChange={handleChange} value={userDetails.fullName} />
+                    <Input placeholder="Email Addresss" type="email" className="focus-visible:ring-0" name="email" onChange={handleChange} value={userDetails.email} />
+                    <Input placeholder="Password" type="password" className="focus-visible:ring-0" name="password" onChange={handleChange} value={userDetails.password} />
                     <div className='flex items-center justify-between'>
                         <Button className="w-1/3" onClick={handleRegister} disabled={loading}>
                             {

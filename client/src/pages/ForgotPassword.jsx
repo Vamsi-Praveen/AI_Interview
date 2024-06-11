@@ -64,7 +64,7 @@ const ForgotPassword = () => {
                     <p className='text-sm my-2'>Don't worry we will sent an email of instructions to reset the password</p>
                 </div>
                 <div className='mb-3'>
-                    <Input placeholder="Email Addresss" type="email" className="focus-visible:ring-0" name="email" onChange={handleChange} autoComplete={'off'} />
+                    <Input placeholder="Email Addresss" type="email" className="focus-visible:ring-0" name="email" onChange={handleChange} autoComplete={'off'} value={email} />
                 </div>
                 <Button onClick={handleForgotPassword} disabled={loading}>
                     {

@@ -75,8 +75,8 @@ const Login = () => {
             <h1 className='text-2xl font-semibold tracking-wide'>Welcome back 🤟,</h1>
             <div className='my-2 w-[300px] space-y-5'>
                 <div className='space-y-3'>
-                    <Input placeholder="Email Addresss" type="email" className="focus-visible:ring-0" name="email" onChange={handleChange} autoComplete={'off'} />
-                    <Input placeholder="Password" type="password" className="focus-visible:ring-0" name="password" onChange={handleChange} />
+                    <Input placeholder="Email Addresss" type="email" className="focus-visible:ring-0" name="email" onChange={handleChange} autoComplete={'off'} value={loginDetails.email} />
+                    <Input placeholder="Password" type="password" className="focus-visible:ring-0" name="password" onChange={handleChange} value={loginDetails.password} />
                     <div className='flex items-center justify-between'>
                         <Button className="w-1/3" onClick={handleLogin} disabled={loading}>
                             {
