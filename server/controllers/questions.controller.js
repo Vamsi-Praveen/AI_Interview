@@ -1,14 +1,39 @@
 import { chatSession } from "../services/Gemini.js";
+import moment from "moment"
+import Question from "../models/questions.model.js";
 
 export const getQuestions = async (req, res) => {
     try {
         const email = req?.user?.email;
         const { jobPosition, skills, experience } = req.body;
 
-        const questions = await chatSession.sendMessage(process.env.GEMINI_QUESTION_PROMPT + " " + "JobPosition " + jobPosition + " Skills " + skills.join(",") + " Experience " + experience);
-        console.log("Question " + process.env.GEMINI_QUESTION_PROMPT + " " + "JobPosition " + jobPosition + " Skills " + skills.join(",") + " Experience " + experience)
+        if (!email) {
+            return res.status(400).send({ error: "Email Invalid" });
+        }
 
-        console.log(questions.response.text())
+        const response = await chatSession.sendMessage(process.env.GEMINI_QUESTION_PROMPT + " " + "JobPosition " + jobPosition + " Skills " + skills.join(",") + " Experience " + experience);
+        // console.log("Question " + process.env.GEMINI_QUESTION_PROMPT + " " + "JobPosition " + jobPosition + " Skills " + skills.join(",") + " Experience " + experience)
+
+        // console.log(questions.response.text())
+        var questions = response?.response?.text();
+        questions = questions.replace('```json', '');
+        questions = questions.replace('```', '');
+
+        const createdDate = moment().format('DD-MM-YYYY');
+
+        const newQuestion = new Question({
+            questions: questions,
+            createdAt: createdDate,
+            createdBy: email,
+            jobPosition: jobPosition,
+            skills: skills,
+            experience: experience
+        })
+
+        await newQuestion.save();
+
+        return res.status(200).send(newQuestion);
+
 
     } catch (error) {
         console.error(error);
