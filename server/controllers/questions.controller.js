@@ -2,7 +2,7 @@ import { chatSession } from "../services/Gemini.js";
 import moment from "moment"
 import Question from "../models/questions.model.js";
 
-export const getQuestions = async (req, res) => {
+export const generateQuestions = async (req, res) => {
     try {
         const email = req?.user?.email;
         const { jobPosition, skills, experience } = req.body;
@@ -38,5 +38,24 @@ export const getQuestions = async (req, res) => {
     } catch (error) {
         console.error(error);
         return res.status(500).json({ error: 'Internal server error' });
+    }
+}
+
+export const getQuestions = async (req, res) => {
+    try {
+        const { id } = req.params;
+        if (!id) {
+            return res.status(400).json({ error: 'Invalid Id' });
+        }
+        await Question.findById(id).then((data) => {
+            return res.status(200).send(data)
+        })
+            .catch((err) => {
+                return res.status(400).send({ error: 'Invalid Id' })
+            })
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: 'Internal Server Error' });
     }
 }

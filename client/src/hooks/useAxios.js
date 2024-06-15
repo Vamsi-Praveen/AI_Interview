@@ -12,7 +12,6 @@ const useAxios = () => {
     useEffect(() => {
         if (token) {
             const authToken = token.startsWith('Bearer ') ? token.split(' ')[1] : token;
-            console.log(authToken)
             API.defaults.headers.common['Authorization'] = `Bearer ${authToken}`;
         } else {
             delete API.defaults.headers.common['Authorization'];
