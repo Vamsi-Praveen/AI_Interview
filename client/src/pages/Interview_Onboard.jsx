@@ -40,7 +40,7 @@ const Interview_Onboard = () => {
                         <h1 className='font-semibold'><span className='font-medium'>Expereince:&nbsp;</span><span className='text-lg'>{interviewData?.experience} yrs</span></h1>
                     </div>
                     <div className='flex gap-1 justify-center p-3 bg-yellow-100 rounded-md text-yellow-600'>
-                        <Lightbulb className='w-6 h-6' /><p className='text-sm'> Please Enable Camera and Microphone and check the details and start the interview. All the best 👍 </p>
+                        <Lightbulb className='w-20 h-10' /><p className='text-sm'> Please Enable Camera and Microphone and check the details and start the interview. It has 10 Questions based on your skillset and job position. All the best 👍 </p>
                     </div>
                 </div>
                 <div className='w-1/2 flex items-center justify-center'>
@@ -53,7 +53,7 @@ const Interview_Onboard = () => {
                                 onUserMediaError={() => { setIsWebcamEnabled(false) }}
                                 onError={() => { setIsWebcamEnabled(false) }}
                             />
-                            <Button variant={"secondary"} onClick={()=>{
+                            <Button variant={"secondary"} onClick={() => {
                                 navigation(`/dashboard/interview-take/${id}`)
                             }}>Start Interview</Button>
                         </div> :
