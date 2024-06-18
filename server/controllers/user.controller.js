@@ -36,7 +36,7 @@ const loginUser = async (req, res) => {
         if (!isPasswordValid) {
             return res.status(400).json({ error: 'Invalid credentials' });
         }
-        const token = jwt.sign({ userId: user._id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ userId: user._id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '1d' });
         return res.header('Authorization', `Bearer ${token}`).json({ message: 'Login successful', userId: user._id, userName: user?.username });
     } catch (error) {
         console.error(error);

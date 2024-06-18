@@ -21,12 +21,10 @@ const QuestionBar = ({ interviewQuestions, activeQuestion, setActiveQuestion }) 
     }
     return (
         <div className='transition-all flex gap-3 w-full flex-wrap'>
-            {questions.map((_, index) => (
-                <>
-                    <div key={index}>
-                        <Button variant={index == activeQuestion ? 'default' : 'secondary'} className={`rounded-full`} onClick={() => { !speaking && setActiveQuestion(index) }}>Question {index + 1}</Button>
-                    </div>
-                </>
+            {questions.map((q, index) => (
+                <div key={index}>
+                    <Button variant={index == activeQuestion ? 'default' : 'secondary'} className={`rounded-full`} onClick={() => { !speaking && setActiveQuestion(index) }}>Question {index + 1}</Button>
+                </div>
 
             ))}
             <div className='my-10'>
