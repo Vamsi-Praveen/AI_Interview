@@ -69,7 +69,7 @@ const Interview = () => {
             stopSpeechToText();
             if (userAnswer.length <= 0) {
                 toast({
-                    description: 'Please Verify Your Microphone Properly'
+                    description: 'Please verify your Microphone properly and record again.'
                 })
                 return;
             }
