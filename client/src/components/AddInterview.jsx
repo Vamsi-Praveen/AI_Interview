@@ -21,10 +21,7 @@ const AddInterview = () => {
     const [loading, setLoading] = useState(false)
     const [addInterviewData, setAddInterviewData] = useState({
         jobPosition: '',
-        skills: [],
-        createdBy: '',
-        createdAt: '',
-        questions: '',
+        skills: '',
         experience: 0
     })
     const handleAdd = async () => {

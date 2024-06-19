@@ -10,7 +10,7 @@ const questionsSchema = new mongoose.Schema({
         required: true
     },
     skills: {
-        type: [String],
+        type: String,
         required: true
     },
     experience: {

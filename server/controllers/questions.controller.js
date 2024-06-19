@@ -11,7 +11,7 @@ export const generateQuestions = async (req, res) => {
             return res.status(400).send({ error: "Email Invalid" });
         }
 
-        const response = await chatSession.sendMessage(process.env.GEMINI_QUESTION_PROMPT + " " + "JobPosition " + jobPosition + " Skills " + skills.join(",") + " Experience " + experience);
+        const response = await chatSession.sendMessage(process.env.GEMINI_QUESTION_PROMPT + " " + "JobPosition " + jobPosition + " Skills " + skills + " Experience " + experience);
         // console.log("Question " + process.env.GEMINI_QUESTION_PROMPT + " " + "JobPosition " + jobPosition + " Skills " + skills.join(",") + " Experience " + experience)
 
         // console.log(questions.response.text())
