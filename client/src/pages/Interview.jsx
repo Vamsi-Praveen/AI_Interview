@@ -20,14 +20,13 @@ const Interview = () => {
     const [userAnswer, setUserAnswer] = useState('')
     const {
         error,
-        interimResult,
         isRecording,
         results,
         startSpeechToText,
-        stopSpeechToText,
+        stopSpeechToText
     } = useSpeechToText({
         continuous: true,
-        useLegacyResults: false
+        useLegacyResults: false,
     });
     if (error) return <div className='h-screen w-full flex items-center justify-center'>
         <p>Web Speech API is not available in this browser 🤷‍</p>
@@ -48,10 +47,11 @@ const Interview = () => {
         }
         fetchInterviewData();
     }, [])
+
     //adding the speech as text to userAnswer State
     useEffect(() => {
         results?.map((ans) => {
-            setUserAnswer((prevAns) => prevAns + ans?.transcript)
+            setUserAnswer((prevAns) => prevAns + " " + ans?.transcript)
         })
     }, [results])
 
@@ -67,14 +67,16 @@ const Interview = () => {
     const saveAnswer = async () => {
         if (isRecording) {
             stopSpeechToText();
-            if (userAnswer.length <= 0) {
+            if (userAnswer?.length <= 5) {
                 toast({
                     description: 'Please verify your Microphone properly and record again.'
                 })
                 return;
             }
+            setUserAnswer('')
         }
         else {
+            setUserAnswer('')
             startSpeechToText();
         }
     }
@@ -103,6 +105,7 @@ const Interview = () => {
                                     isRecording ? 'Stop Recording' : 'Record Answer'
                                 }
                             </Button>
+                            <Button onClick={() => { console.log(userAnswer) }}>Show Answer</Button>
                             <div className='flex gap-5'>
                                 {activeQuestion > 0 && <Button variant="secondary" onClick={() => { setActiveQuestion(activeQuestion - 1) }} disabled={isRecording}>Previous</Button>}
                                 {activeQuestion != JSON.parse(interviewData?.questions).length - 1 && <Button variant="secondary" disabled={isRecording} onClick={() => { setActiveQuestion(activeQuestion + 1) }}>Next</Button>}

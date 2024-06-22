@@ -32,8 +32,7 @@ export const generateQuestions = async (req, res) => {
 
         await newQuestion.save();
 
-        return res.status(200).send(newQuestion);
-
+        return res.status(200).send({ message: 'Created Successfull', id: newQuestion?._id });
 
     } catch (error) {
         console.error(error);

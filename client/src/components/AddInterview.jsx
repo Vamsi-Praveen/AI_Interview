@@ -13,21 +13,41 @@ import { Label } from '@/components/ui/label'
 import useAxios from "@/hooks/useAxios"
 import { useToast } from "./ui/use-toast"
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 
 const AddInterview = () => {
 
     const API = useAxios()
-    const toast = useToast()
+    const { toast } = useToast()
     const [loading, setLoading] = useState(false)
     const [addInterviewData, setAddInterviewData] = useState({
         jobPosition: '',
         skills: '',
         experience: 0
     })
+    const navigation = useNavigate()
+    const baseURL = import.meta.env.VITE_API_BASE_URL
     const handleAdd = async () => {
         try {
             setLoading(true);
-            console.log(addInterviewData)
+            await API.post(`${baseURL}generate-questions`, {
+                jobPosition: addInterviewData.jobPosition,
+                skills: addInterviewData.skills,
+                experience: addInterviewData.experience
+            }).then((data) => {
+                toast({
+                    description: data?.data?.message
+                })
+                return navigation(`/dashboard/interview_onboard/${data?.data?.id}`)
+
+            })
+                .catch((err) => {
+                    if (err?.response?.data) {
+                        return toast({
+                            description: err?.response?.data
+                        })
+                    }
+                })
 
         } catch (error) {
             console.log(error)
@@ -96,7 +116,11 @@ const AddInterview = () => {
                     </div>
                 </div>
                 <DialogFooter>
-                    <Button onClick={handleAdd}>Create Now</Button>
+                    <Button onClick={handleAdd} disabled={loading}>
+                        {
+                            loading ? 'Creating....' : 'Create Now'
+                        }
+                    </Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>
