@@ -11,9 +11,10 @@ import {
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import useAxios from "@/hooks/useAxios"
-import { useToast } from "./ui/use-toast"
+import { Loader } from "lucide-react"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import { useToast } from "./ui/use-toast"
 
 const AddInterview = () => {
 
@@ -26,11 +27,10 @@ const AddInterview = () => {
         experience: 0
     })
     const navigation = useNavigate()
-    const baseURL = import.meta.env.VITE_API_BASE_URL
     const handleAdd = async () => {
         try {
             setLoading(true);
-            await API.post(`${baseURL}generate-questions`, {
+            await API.post(`generate-questions`, {
                 jobPosition: addInterviewData.jobPosition,
                 skills: addInterviewData.skills,
                 experience: addInterviewData.experience
@@ -118,7 +118,7 @@ const AddInterview = () => {
                 <DialogFooter>
                     <Button onClick={handleAdd} disabled={loading}>
                         {
-                            loading ? 'Creating....' : 'Create Now'
+                            loading ? <Loader className="w-4 h-4 animate-spin" /> : 'Create Now'
                         }
                     </Button>
                 </DialogFooter>

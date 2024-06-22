@@ -1,13 +1,13 @@
 import { useAuth } from "@/context/AuthContext";
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 
 const useAxios = () => {
     const { token } = useAuth();
 
-    const API = axios.create({
+    const API = useMemo(() => axios.create({
         baseURL: import.meta.env.VITE_API_BASE_URL,
-    });
+    }), []);
 
     useEffect(() => {
         if (token) {
@@ -16,7 +16,7 @@ const useAxios = () => {
         } else {
             delete API.defaults.headers.common['Authorization'];
         }
-    }, [token]);
+    }, [token, API]);
 
     return API;
 };

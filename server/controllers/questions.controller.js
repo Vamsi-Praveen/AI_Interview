@@ -1,6 +1,7 @@
 import { chatSession } from "../services/Gemini.js";
 import moment from "moment"
 import Question from "../models/questions.model.js";
+import User from '../models/user.model.js';
 
 export const generateQuestions = async (req, res) => {
     try {
@@ -16,8 +17,8 @@ export const generateQuestions = async (req, res) => {
 
         // console.log(questions.response.text())
         var questions = response?.response?.text();
-        questions = questions.replace('```json', '');
-        questions = questions.replace('```', '');
+        questions = questions.replaceAll('```json', '');
+        questions = questions.replaceAll('```', '');
 
         const createdDate = moment().format('DD-MM-YYYY');
 
@@ -32,7 +33,14 @@ export const generateQuestions = async (req, res) => {
 
         await newQuestion.save();
 
-        return res.status(200).send({ message: 'Created Successfull', id: newQuestion?._id });
+        const user = await User.findOne({ email: email });
+
+        const prevInterviews = [...user?.previousInterviews, newQuestion?._id];
+
+        const data = await User.findOneAndUpdate({ email: email }, { previousInterviews: prevInterviews }, { new: true })
+        if (data) {
+            return res.status(200).send({ message: 'Created Successfull', id: newQuestion?._id });
+        }
 
     } catch (error) {
         console.error(error);
@@ -51,6 +59,25 @@ export const getQuestions = async (req, res) => {
         })
             .catch((err) => {
                 return res.status(400).send({ error: 'Invalid Id' })
+            })
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
+
+export const fetchPrevInterviews = async (req, res) => {
+    try {
+        const { email } = req.user;
+        if (!email) {
+            return res.status(400).json({ error: 'Email Required' });
+        }
+        await Question.find({ createdBy: email }).then((data) => {
+            return res.status(200).send(data)
+        })
+            .catch((err) => {
+                return res.status(400).send({ error: 'User Not Found' })
             })
 
     } catch (error) {

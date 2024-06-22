@@ -67,11 +67,10 @@ const Interview = () => {
     const saveAnswer = async () => {
         if (isRecording) {
             stopSpeechToText();
-            if (userAnswer?.length <= 5) {
-                toast({
+            if (userAnswer?.length) {
+                return toast({
                     description: 'Please verify your Microphone properly and record again.'
                 })
-                return;
             }
             setUserAnswer('')
         }
@@ -84,7 +83,7 @@ const Interview = () => {
         <div className='h-screen w-full flex items-center justify-center p-10 gap-10'>
             <div className='w-[60%]'>
                 <div className='w-full'>
-                    <QuestionBar activeQuestion={activeQuestion} setActiveQuestion={setActiveQuestion} interviewQuestions={interviewData?.questions} isRecording={isRecording} />
+                    <QuestionBar activeQuestion={activeQuestion} setActiveQuestion={setActiveQuestion} interviewQuestions={interviewData?.questions} isRecording={isRecording} userAns={setUserAnswer} />
                 </div>
 
             </div>
@@ -107,8 +106,8 @@ const Interview = () => {
                             </Button>
                             <Button onClick={() => { console.log(userAnswer) }}>Show Answer</Button>
                             <div className='flex gap-5'>
-                                {activeQuestion > 0 && <Button variant="secondary" onClick={() => { setActiveQuestion(activeQuestion - 1) }} disabled={isRecording}>Previous</Button>}
-                                {activeQuestion != JSON.parse(interviewData?.questions).length - 1 && <Button variant="secondary" disabled={isRecording} onClick={() => { setActiveQuestion(activeQuestion + 1) }}>Next</Button>}
+                                {activeQuestion > 0 && <Button variant="secondary" onClick={() => { setActiveQuestion(activeQuestion - 1); setUserAnswer('') }} disabled={isRecording}>Previous</Button>}
+                                {activeQuestion != JSON.parse(interviewData?.questions).length - 1 && <Button variant="secondary" disabled={isRecording} onClick={() => { setActiveQuestion(activeQuestion + 1); setUserAnswer('') }}>Next</Button>}
                                 {activeQuestion == JSON.parse(interviewData?.questions).length - 1 && <Button variant="destructive" disabled={isRecording} onClick={() => { STT() }}>End Interview</Button>}
                             </div>
                         </div>

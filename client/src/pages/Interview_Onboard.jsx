@@ -36,7 +36,7 @@ const Interview_Onboard = () => {
                 <div className='w-1/2 space-y-2 p-5 flex flex-col gap-4'>
                     <div>
                         <h1 className='font-semibold'><span className='font-medium'>Job Position:&nbsp;</span><span className='text-lg'>{interviewData?.jobPosition}</span></h1>
-                        <h1 className='font-semibold'><span className='font-medium'>Skills:&nbsp;</span><span className='text-lg'>{interviewData?.skills?.join(',')}</span></h1>
+                        <h1 className='font-semibold'><span className='font-medium'>Skills:&nbsp;</span><span className='text-lg'>{interviewData?.skills}</span></h1>
                         <h1 className='font-semibold'><span className='font-medium'>Expereince:&nbsp;</span><span className='text-lg'>{interviewData?.experience} yrs</span></h1>
                     </div>
                     <div className='flex gap-1 justify-center p-3 bg-yellow-100 rounded-md text-yellow-600'>

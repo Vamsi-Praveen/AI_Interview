@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Button } from './ui/button';
 import { Volume2 } from 'lucide-react';
 
-const QuestionBar = ({ interviewQuestions, activeQuestion, setActiveQuestion, isRecording }) => {
+const QuestionBar = ({ interviewQuestions, activeQuestion, setActiveQuestion, isRecording, userAns }) => {
     const { speak, cancel, speaking } = useTextToSpeech();
     const [questions, setQuestions] = useState([])
     useEffect(() => {
@@ -23,7 +23,7 @@ const QuestionBar = ({ interviewQuestions, activeQuestion, setActiveQuestion, is
         <div className='transition-all flex gap-3 w-full flex-wrap'>
             {questions.map((q, index) => (
                 <div key={index}>
-                    <Button variant={index == activeQuestion ? 'default' : 'secondary'} className={`rounded-full`} onClick={() => { !speaking && setActiveQuestion(index) }} disabled={isRecording && index != activeQuestion}>Question {index + 1}</Button>
+                    <Button variant={index == activeQuestion ? 'default' : 'secondary'} className={`rounded-full`} onClick={() => { !speaking && setActiveQuestion(index); userAns('') }} disabled={isRecording && index != activeQuestion}>Question {index + 1}</Button>
                 </div>
 
             ))}
