@@ -46,7 +46,7 @@ const Login = () => {
             await axios.post(`${baseUrl}auth/login`, loginDetails)
                 .then((data) => {
                     setToken(data?.headers?.authorization);
-                    setUser({ userId: data?.data?.userId, email: data?.data?.email });
+                    setUser({ userId: data?.data?.userId, email: data?.data?.email, userName: data?.data?.userName });
                     navigation('/dashboard')
                 })
                 .catch((err) => {

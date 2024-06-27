@@ -28,6 +28,11 @@ const AddInterview = () => {
     })
     const navigation = useNavigate()
     const handleAdd = async () => {
+        if (addInterviewData.jobPosition == '' || addInterviewData.skills == '' || addInterviewData.experience == '') {
+            return toast({
+                description: 'Please Enter all Feilds'
+            })
+        }
         try {
             setLoading(true);
             await API.post(`generate-questions`, {
@@ -90,6 +95,7 @@ const AddInterview = () => {
                             className="col-span-3"
                             onChange={handleChange}
                             name="jobPosition"
+                            autoComplete="off"
                         />
                     </div>
                     <div className="grid grid-cols-4 items-center gap-4">
@@ -101,6 +107,7 @@ const AddInterview = () => {
                             className="col-span-3"
                             onChange={handleChange}
                             name="skills"
+                            autoComplete="off"
                         />
                     </div>
                     <div className="grid grid-cols-4 items-center gap-4">
@@ -112,6 +119,7 @@ const AddInterview = () => {
                             className="col-span-3"
                             onChange={handleChange}
                             name="experience"
+                            autoComplete="off"
                         />
                     </div>
                 </div>

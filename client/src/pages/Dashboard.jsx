@@ -1,7 +1,7 @@
 import AddInterview from '@/components/AddInterview';
 import InterviewCard from '@/components/InterviewCard';
-import Loading from '@/components/Loader';
 import Navbar from '@/components/Navbar';
+import { useToast } from '@/components/ui/use-toast';
 import useAxios from '@/hooks/useAxios';
 import { Loader } from 'lucide-react';
 import { useEffect, useState } from 'react';
@@ -10,6 +10,8 @@ const Dashboard = () => {
   const [prevInterviews, setPrevInterviews] = useState([])
   const [loading, setLoading] = useState(false)
   const API = useAxios()
+  const { toast } = useToast();
+
   useEffect(() => {
     const fetchInterviews = async () => {
       setLoading(true)
