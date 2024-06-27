@@ -17,7 +17,6 @@ const Interview = () => {
     const [isWebcamEnabled, setIsWebcamEnabled] = useState(false)
     const { toast } = useToast()
     const navigation = useNavigate();
-    const [userAnswer, setUserAnswer] = useState('')
 
     const { isListening, transcript, startListening, stopListening } = useSpeechToText()
 
@@ -46,7 +45,7 @@ const Interview = () => {
         </div>
     }
 
-    const saveAnswer = () => {
+    const saveAnswer = async () => {
         if (isListening) {
             stopListening()
             if (transcript?.length <= 10) {
@@ -54,6 +53,20 @@ const Interview = () => {
                     description: 'Answer very short. Please record it again.'
                 })
             }
+            const feedbackQuery = `Mock Interview Question is ${interviewData?.questions[activeQuestion].question} and the user answer is ${transcript}. Based on question and answer please verify it and provide feedback and score for answer in json format containg feilds score and improvements.`;
+
+            await API.post('verify-answer', {
+                question: interviewData?.questions[activeQuestion]?.question,
+                answer: transcript,
+                questionId: interviewData?._id
+            })
+                .then((data) => {
+
+                })
+                .catch((err) => {
+
+                })
+
         }
         else {
             startListening()
@@ -63,7 +76,7 @@ const Interview = () => {
         <div className='h-screen w-full flex items-center justify-center p-10 gap-10'>
             <div className='w-[60%]'>
                 <div className='w-full'>
-                    <QuestionBar activeQuestion={activeQuestion} setActiveQuestion={setActiveQuestion} interviewQuestions={interviewData?.questions} isRecording={isListening} userAns={setUserAnswer} />
+                    <QuestionBar activeQuestion={activeQuestion} setActiveQuestion={setActiveQuestion} interviewQuestions={interviewData?.questions} isRecording={isListening} />
                 </div>
 
             </div>
@@ -77,7 +90,7 @@ const Interview = () => {
                             onUserMediaError={() => { setIsWebcamEnabled(false) }}
                             onError={() => { setIsWebcamEnabled(false) }}
                         />
-                        <h1>{isListening.toString()}</h1>
+                        {/* <h1>{isListening.toString()}</h1> */}
                         <div className='my-2 flex items-center gap-5    '>
                             <Button onClick={saveAnswer} variant={isListening ? "secondary" : 'default'} className={isListening && 'border text-red-400'}>{isListening ? <CircleStop className='w-5 h-5 mr-2' /> : <Mic className='w-5 h-5 mr-2' />}
                                 {

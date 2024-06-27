@@ -6,6 +6,7 @@ import connectToDB from "./config/dbConfig.js";
 import userRouter from "./routes/user.route.js";
 import questionRouter from "./routes/questions.route.js";
 import fpRouter from "./routes/forgotpassword.route.js";
+import feedBackRouter from "./routes/feedback.route.js";
 
 const app = express();
 
@@ -33,6 +34,10 @@ app.use('/api/auth', userRouter);
 app.use('/api', questionRouter);
 
 app.use('/api/auth', fpRouter);
+
+app.use('/api', feedBackRouter);
+
+
 
 
 // Connect to the database
