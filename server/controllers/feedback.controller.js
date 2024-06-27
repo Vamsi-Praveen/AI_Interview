@@ -18,7 +18,7 @@ export const verifyAnswer = async (req, res) => {
         if (!feedbackDoc) {
             feedbackDoc = new Feedback({
                 questionsId: questionId,
-                feedback: [feedbackRes]
+                feedback: feedbackRes,
             })
         }
         else {

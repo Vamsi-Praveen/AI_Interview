@@ -17,6 +17,7 @@ const Interview = () => {
     const [isWebcamEnabled, setIsWebcamEnabled] = useState(false)
     const { toast } = useToast()
     const navigation = useNavigate();
+    const [waiting, setWaiting] = useState(false)
 
     const { isListening, transcript, startListening, stopListening } = useSpeechToText()
 
@@ -53,17 +54,26 @@ const Interview = () => {
                     description: 'Answer very short. Please record it again.'
                 })
             }
-            const feedbackQuery = `Mock Interview Question is ${interviewData?.questions[activeQuestion].question} and the user answer is ${transcript}. Based on question and answer please verify it and provide feedback and score for answer in json format containg feilds score and improvements.`;
-
+            setWaiting(true)
+            const questionSelected = JSON.parse(interviewData?.questions)[activeQuestion]?.question;
             await API.post('verify-answer', {
-                question: interviewData?.questions[activeQuestion]?.question,
+                question: questionSelected,
                 answer: transcript,
                 questionId: interviewData?._id
             })
                 .then((data) => {
-
+                    toast({
+                        description: data?.data?.message
+                    })
+                    setWaiting(false)
                 })
                 .catch((err) => {
+                    setWaiting(false)
+                    if (err?.response?.data) {
+                        return toast({
+                            description: err?.response?.data
+                        })
+                    }
 
                 })
 
@@ -92,16 +102,16 @@ const Interview = () => {
                         />
                         {/* <h1>{isListening.toString()}</h1> */}
                         <div className='my-2 flex items-center gap-5    '>
-                            <Button onClick={saveAnswer} variant={isListening ? "secondary" : 'default'} className={isListening && 'border text-red-400'}>{isListening ? <CircleStop className='w-5 h-5 mr-2' /> : <Mic className='w-5 h-5 mr-2' />}
+                            <Button onClick={saveAnswer} variant={isListening ? "secondary" : 'default'} className={isListening && 'border text-red-400'} disabled={waiting}>{isListening ? <CircleStop className='w-5 h-5 mr-2' /> : <Mic className='w-5 h-5 mr-2' />}
                                 {
                                     isListening ? 'Stop Recording' : 'Record Answer'
                                 }
                             </Button>
                             <Button onClick={() => { console.log(transcript) }}>Show Answer</Button>
                             <div className='flex gap-5'>
-                                {activeQuestion > 0 && <Button variant="secondary" onClick={() => { setActiveQuestion(activeQuestion - 1); setUserAnswer('') }} disabled={isListening}>Previous</Button>}
-                                {activeQuestion != JSON.parse(interviewData?.questions).length - 1 && <Button variant="secondary" disabled={isListening} onClick={() => { setActiveQuestion(activeQuestion + 1); setUserAnswer('') }}>Next</Button>}
-                                {activeQuestion == JSON.parse(interviewData?.questions).length - 1 && <Button variant="destructive" disabled={isListening} onClick={() => { STT() }}>End Interview</Button>}
+                                {activeQuestion > 0 && <Button variant="secondary" onClick={() => { setActiveQuestion(activeQuestion - 1); }} disabled={isListening || waiting}>Previous</Button>}
+                                {activeQuestion != JSON.parse(interviewData?.questions).length - 1 && <Button variant="secondary" disabled={isListening || waiting} onClick={() => { setActiveQuestion(activeQuestion + 1); }}>Next</Button>}
+                                {activeQuestion == JSON.parse(interviewData?.questions).length - 1 && <Button variant="destructive" disabled={isListening || waiting} onClick={() => { STT() }}>End Interview</Button>}
                             </div>
                         </div>
                         <div>
