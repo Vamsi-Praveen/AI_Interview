@@ -30,7 +30,10 @@ const InterviewFeedback = () => {
                         return score;
                     })
                     setLoading(false)
-                    setConfetti(true)
+                    if (!localStorage.getItem('hasVisitedFeedbackPage')) {
+                        setConfetti(true);
+                        localStorage.setItem('hasVisitedFeedbackPage', 'true');
+                    }
                 })
                 .catch((err) => {
                     setLoading(false)
@@ -48,7 +51,7 @@ const InterviewFeedback = () => {
         loading ? <div className='h-screen w-full flex items-center justify-center'>
             <Loader className='w-4 h-4 animate-spin' />
         </div> : <div className='h-screen w-full flex flex-col p-10'>
-            {confetti && <ConfettiExplosion duration={3000} particleCount={500} width={3000} force={0.8}/>}
+            {confetti && <ConfettiExplosion duration={3000} particleCount={500} width={3000} force={0.8} />}
             <div className='flex justify-between items-center'>
                 <h1 className='font-medium text-xl'>Overall Score: <strong>{score}/50</strong></h1>
                 <Button onClick={() => navigation('/dashboard')}>Home</Button>
