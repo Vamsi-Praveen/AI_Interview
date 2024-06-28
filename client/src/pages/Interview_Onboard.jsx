@@ -40,7 +40,7 @@ const Interview_Onboard = () => {
                         <h1 className='font-semibold'><span className='font-medium'>Expereince:&nbsp;</span><span className='text-lg'>{interviewData?.experience} yrs</span></h1>
                     </div>
                     <div className='flex gap-1 justify-center p-3 bg-yellow-100 rounded-md text-yellow-600'>
-                        <Lightbulb className='w-20 h-10' /><p className='text-sm'> Please Enable Camera and Microphone and check the details and start the interview. It has 10 Questions based on your skillset and job position. All the best 👍 </p>
+                        <Lightbulb className='w-20 h-10' /><p className='text-sm'> Please Enable Camera and Microphone and check the details and start the interview. It has 10 Questions based on your skillset and job position. Try to answer all the questions in same order only. All the best 👍 </p>
                     </div>
                 </div>
                 <div className='w-1/2 flex items-center justify-center'>

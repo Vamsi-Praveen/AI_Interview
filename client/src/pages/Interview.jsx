@@ -46,6 +46,9 @@ const Interview = () => {
         </div>
     }
 
+    const endInterview = async () => {
+        return navigation(`/dashboard/interview-feedback/${interviewData?._id}`)
+    }
     const saveAnswer = async () => {
         if (isListening) {
             stopListening()
@@ -107,11 +110,11 @@ const Interview = () => {
                                     isListening ? 'Stop Recording' : 'Record Answer'
                                 }
                             </Button>
-                            <Button onClick={() => { console.log(transcript) }}>Show Answer</Button>
+                            {/* <Button onClick={() => { console.log(transcript) }}>Show Answer</Button> */}
                             <div className='flex gap-5'>
                                 {activeQuestion > 0 && <Button variant="secondary" onClick={() => { setActiveQuestion(activeQuestion - 1); }} disabled={isListening || waiting}>Previous</Button>}
                                 {activeQuestion != JSON.parse(interviewData?.questions).length - 1 && <Button variant="secondary" disabled={isListening || waiting} onClick={() => { setActiveQuestion(activeQuestion + 1); }}>Next</Button>}
-                                {activeQuestion == JSON.parse(interviewData?.questions).length - 1 && <Button variant="destructive" disabled={isListening || waiting} onClick={() => { STT() }}>End Interview</Button>}
+                                {activeQuestion == JSON.parse(interviewData?.questions).length - 1 && <Button variant="destructive" disabled={isListening || waiting} onClick={endInterview}>End Interview</Button>}
                             </div>
                         </div>
                         <div>

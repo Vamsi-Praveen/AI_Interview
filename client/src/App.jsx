@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Loading from './components/Loader'
 import { Toaster } from './components/ui/toaster'
 import Interview from './pages/Interview'
+import InterviewFeedback from './pages/InterviewFeedback'
 const Dashboard = lazy(() => import('./pages/Dashboard'))
 const Login = lazy(() => import('./pages/Login'))
 const Register = lazy(() => import('./pages/Register'))
@@ -23,6 +24,7 @@ const App = () => {
               <Route index element={<Dashboard />} />
               <Route path='/dashboard/interview_onboard/:id' element={<Interview_Onboard />} />
               <Route path='/dashboard/interview-take/:id' element={<Interview />} />
+              <Route path='/dashboard/interview-feedback/:id' element={<InterviewFeedback />} />
             </Route>
             <Route path='/' element={<Home />} />
             <Route path='/auth/login' element={<Login />} />

@@ -32,3 +32,24 @@ export const verifyAnswer = async (req, res) => {
         return res.status(500).send('Internal Server Error');
     }
 }
+
+
+export const fetchFeedback = async (req, res) => {
+    try {
+        const { id } = req.params;
+        if (!id) {
+            return res.status(400).send({ error: 'Id required' });
+        }
+        await Feedback.findOne({ questionsId: id })
+            .then((data) => {
+                return res.status(200).send({ feedback: data })
+            })
+            .catch((err) => {
+                console.log(err);
+                return res.status(500).send('Internal Server Error');
+            })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).send('Internal Server Error');
+    }
+}
