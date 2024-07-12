@@ -5,6 +5,12 @@ import { Loader } from 'lucide-react';
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import ConfettiExplosion from 'react-confetti-explosion';
+import {
+    Accordion,
+    AccordionContent,
+    AccordionItem,
+    AccordionTrigger,
+} from "@/components/ui/accordion"
 
 const InterviewFeedback = () => {
     const [feedback, setFeedback] = useState([])
@@ -57,16 +63,28 @@ const InterviewFeedback = () => {
                 <Button onClick={() => navigation('/dashboard')}>Home</Button>
             </div>
             <div className='mt-4'>
-                <h1>Questions Report :</h1>
                 <div className='my-3 space-y-3'>
                     {
                         feedback?.feedback?.map((ques, index) => {
                             const parsedQues = JSON.parse(ques);
-                            return <div key={index} className='p-3 rounded-md border border-1 border-gray-200 space-y-1 cursor-pointer hover:bg-slate-50'>
-                                <h1><strong>Score:&nbsp;</strong>{parsedQues?.score}/5</h1>
-                                <h1><strong>Question:&nbsp;</strong>{parsedQues?.question}</h1>
-                                <h1><strong>Answer:&nbsp;</strong>{parsedQues?.answer}</h1>
-                                <h1><strong>Review:&nbsp;</strong>{parsedQues?.feedback}</h1>
+                            return <div key={index} className='p-3 rounded-md space-y-1 cursor-pointer hover:bg-slate-50/45'>
+                                <Accordion type="single" collapsible>
+                                    <AccordionItem value="item-1">
+                                        <AccordionTrigger>
+                                            <p className='font-medium'>{parsedQues?.question}</p>
+                                        </AccordionTrigger>
+                                        <AccordionContent>
+                                            <p className='text-md'><strong>Score:</strong>&nbsp;<span className='text-green-500 font-medium'>{parsedQues?.score}</span>/5</p>
+                                        </AccordionContent>
+                                        <AccordionContent>
+                                            <p className='text-md capitalize'><strong>Answer:</strong>&nbsp;{parsedQues?.answer}</p>
+                                        </AccordionContent>
+                                        <AccordionContent>
+                                            <p className='text-md capitalize'><strong>Review:</strong>&nbsp;{parsedQues?.feedback}</p>
+                                        </AccordionContent>
+                                    </AccordionItem>
+                                </Accordion>
+
                             </div>
                         })
                     }
